@@ -56,7 +56,7 @@ RUN if ! getent group $USER_GID >/dev/null; then \
     else \
         usermod -a -G $USER_GID $(getent passwd $USER_UID | cut -d: -f1); \
     fi \
- && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+ && echo "%sudo ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
  && chmod 0440 /etc/sudoers.d/$USERNAME
 
 
