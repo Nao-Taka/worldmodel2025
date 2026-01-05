@@ -1,0 +1,38 @@
+{
+    "name": "Python VScode GPU",                    // VScodeがコンテナに接続したときのタイトルを自由に設定
+    "dockerComposeFile": "docker-compose.yml",  // docker-conpose.ymlファイルを指定
+    "service": "python",                        // docker-conpose.ymlファイル内に記載したサービス名を指定
+    "workspaceFolder": "/workspace/src",         // VScode接続時に開くフォルダを指定
+    "remoteUser" : "1000", //ユーザーの設定
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}"
+    },
+
+    "runArgs": [
+        "-v",
+        "/tmp/.X11-unix:/tmp/.X11-unix",
+        "--shm-size",
+        "64gb",
+        // "--gpus", "all",
+        ], //GPUを使うことを明記、--shm-sizeはよくわからん…
+    "customizations": {
+        "vscode": {
+            "extensions": [                     // コンテナ作成時にインストールする拡張機能を記載
+                "ms-python.python",             // python拡張機能
+                "ms-python.debugpy",            // pythonのデバッガ
+                "ms-python.vscode-pylance",     // pythonのインテリセンス
+            ],
+            "settings": {                       // VScodeの設定を記載
+                "files.autoSave": "afterDelay",  // ファイルのオートセーブ
+                "terminal.integrated.enableImages": true, //Sixelに対応
+                "terminal.integrated.gpuAcceleration": "on",// Sixelに対応
+                //rootに作った仮想環境にPathを通します
+                "python.defaultInterpreterPath": "/opt/venv/bin/python3.12",
+                //デバッグ時にターミナルをクリアする
+                "debug.terminal.clearBeforeReusing": true
+
+            }
+        }
+    }
+}
+

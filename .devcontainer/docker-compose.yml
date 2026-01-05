@@ -1,0 +1,30 @@
+services:                           # サービスを定義しますという決まり文句
+  python:                           # pythonという名前でサービスを定義
+    image: cuda:12_8             # イメージのREPOSITORY名:TAG名を指定
+    build: .                        # Dockerfileを相対パスで指定
+    container_name: cuda_12_8    # 作成されるコンテナ名を指定
+    working_dir: /workspace/src     # 作業ディレクトリを指定 (←コンテナ内の作業ディレクトリ
+    volumes:                        # マウントするファイルを指定する
+      -  ../:/workspace/src       # ローカルのカレントディレクトリをコンテナのworkspace/srcにマウント
+      # WSLg
+      # 2つ目の方は不要かもしれません。。。
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      #- /mnt/wslg:/mnt/wslg
+    environment:
+      # WSLg
+      # WSLgを使うものについては未検証です。。。
+      # - DISPLAY=$DISPLAY
+      # - WAYLAND_DISPLAY=$WAYLAND_DISPLAY
+      # - XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
+      # - PULSE_SERVER=$PULSE_SERVER
+      # VcXsrv
+      # ディスプレイをDocker上のLinuxからWindowsに送るように指示する
+      #DISPLAY: host.docker.internal:0.0 #Windows用
+      - DISPLAY:${DISPLAY} #Ubuntu
+      #オーナー側でこのコマンドを実施すること xhost +SI:localuser:$(whoami)
+    tty: true                       # コンテナを起動し続ける
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
