@@ -5,6 +5,7 @@
     "workspaceFolder": "/workspace/src",         // VScode接続時に開くフォルダを指定
     "remoteUser" : "1000", //ユーザーの設定
     "containerEnv": {
+        "PYOPENGL_PLATFORM": "glx",
         "DISPLAY": "${localEnv:DISPLAY}"
     },
 

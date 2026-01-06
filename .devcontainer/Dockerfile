@@ -31,6 +31,16 @@ RUN apt-get update && apt-get install -y \
     python3-pil.imagetk \
     tk-dev \
     x11-apps \
+    libgl1 \
+    libegl1 \
+    libegl-mesa0 \
+    libglx-mesa0 \
+    mesa-utils \
+    libglfw3 \
+    libxrandr2 \
+    libxinerama1 \
+    libxcursor1 \
+    libxi6 \
     && rm -rf /var/lib/apt/lists/*
 
 #sixelの設定

@@ -10,6 +10,7 @@ services:                           # サービスを定義しますという決
       # 2つ目の方は不要かもしれません。。。
       - /tmp/.X11-unix:/tmp/.X11-unix
       #- /mnt/wslg:/mnt/wslg
+      - /dev/dri:/dev/dri
     environment:
       # WSLg
       # WSLgを使うものについては未検証です。。。
@@ -22,6 +23,8 @@ services:                           # サービスを定義しますという決
       #DISPLAY: host.docker.internal:0.0 #Windows用
       - DISPLAY:${DISPLAY} #Ubuntu
       #オーナー側でこのコマンドを実施すること xhost +SI:localuser:$(whoami)
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,graphics,utility
     tty: true                       # コンテナを起動し続ける
     deploy:
       resources:
