@@ -28,7 +28,7 @@
                 "terminal.integrated.enableImages": true, //Sixelに対応
                 "terminal.integrated.gpuAcceleration": "on",// Sixelに対応
                 //rootに作った仮想環境にPathを通します
-                "python.defaultInterpreterPath": "/opt/venv/bin/python3.12",
+                "python.defaultInterpreterPath": "/home/ubuntu/venv/bin/python3.12",
                 //デバッグ時にターミナルをクリアする
                 "debug.terminal.clearBeforeReusing": true
 

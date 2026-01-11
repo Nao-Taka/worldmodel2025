@@ -9,3 +9,5 @@ torchvision --index-url https://download.pytorch.org/whl/cu128
 torchaudio --index-url https://download.pytorch.org/whl/cu128
 torchinfo
 genesis-world
+ultralytics
+termcolor

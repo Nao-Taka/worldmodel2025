@@ -41,6 +41,8 @@ RUN apt-get update && apt-get install -y \
     libxinerama1 \
     libxcursor1 \
     libxi6 \
+    libvulkan1 \
+    vulkan-tools \
     && rm -rf /var/lib/apt/lists/*
 
 #sixelの設定
@@ -54,7 +56,7 @@ RUN cd /tmp &&\
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 # ---- user ----
-ARG USERNAME=user
+ARG USERNAME=ubuntu
 ARG USER_UID=1000
 ARG USER_GID=1000
 
@@ -70,7 +72,7 @@ RUN if ! getent group $USER_GID >/dev/null; then \
  && chmod 0440 /etc/sudoers.d/$USERNAME
 
 
-# USER $USERNAME
+USER $USERNAME
 WORKDIR /workspace/src
 
 # Pythonのシンボリックリンクを作成
@@ -92,12 +94,12 @@ COPY requirements.txt ./
 # RUN python3 -m venv /workspace/src/venv \
 #     && /workspace/src/venv/bin/pip install --upgrade pip \
 #     && /workspace/src/venv/bin/pip install --no-cache-dir -r requirements.txt
-RUN python3.12 -m venv /opt/venv \
-    && /opt/venv/bin/python -m pip install --upgrade pip \
-    && /opt/venv/bin/python -m pip install --no-cache-dir -r requirements.txt \
-    && /opt/venv/bin/python -m pip install sixel　\
-    && chmod -R a+rX /opt/venv
-COPY sixel.py /opt/venv/lib/python3.12/site-packages/sixel.py
+RUN python3.12 -m venv /home/$USERNAME/venv \
+    && /home/$USERNAME/venv/bin/python -m pip install --upgrade pip \
+    && /home/$USERNAME/venv/bin/python -m pip install --no-cache-dir -r requirements.txt \
+    && /home/$USERNAME/venv/bin/python -m pip install sixel \
+    && chmod -R a+rX /home/$USERNAME/venv
+COPY sixel.py /home/$USERNAME/venv/lib/python3.12/site-packages/sixel.py
 
 #RUN python3.12 -m venv /workspace/src/venv \
 #    && /workspace/src/venv/bin/pip install --upgrade pip \
@@ -105,7 +107,7 @@ COPY sixel.py /opt/venv/lib/python3.12/site-packages/sixel.py
 #仮想環境の有効化
 # CMD ["./venv/bin/python"]
 
-ENV PATH=/opt/venv/bin:$PATH
+ENV PATH=/home/$USERNAME/venv/bin:$PATH
 
 # Gitの設定を行う
 RUN git config --global core.editor 'code --wait'

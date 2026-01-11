@@ -11,6 +11,7 @@ services:                           # サービスを定義しますという決
       - /tmp/.X11-unix:/tmp/.X11-unix
       #- /mnt/wslg:/mnt/wslg
       - /dev/dri:/dev/dri
+      - /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d
     environment:
       # WSLg
       # WSLgを使うものについては未検証です。。。
